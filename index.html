@@ -1,806 +1,880 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahura Alipoor - Full Stack Developer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>اهورا عالی پور | توسعه‌دهنده Full-Stack</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --accent: #fd79a8;
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --gray-color: #64748b;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            
+            /* متغیرهای حالت روشن (پیش‌فرض) */
+            --bg-color: #f1f5f9;
+            --card-bg: white;
+            --text-color: #1e293b;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --border-color: #e2e8f0;
         }
-        
+
+        /* حالت تاریک */
+        .dark-mode {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            --border-color: #334155;
+            --dark-color: #f8fafc;
+            --light-color: #1e293b;
+            --gray-color: #cbd5e1;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
-        html {
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-        
+
         body {
-            font-family: 'Poppins', 'Vazirmatn', sans-serif;
-            overflow-x: hidden;
-            color: var(--dark);
-            background-color: var(--light);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
-        
-        /* Language toggle */
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .language-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
-        }
-        
-        .language-btn.active {
-            background: white;
-            color: var(--primary);
-        }
-        
-        /* Sections */
-        .section {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Intro section */
-        #intro {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            flex-direction: column;
-            text-align: center;
-            padding: 0 20px;
-        }
-        
-        .intro-content {
-            max-width: 800px;
-        }
-        
-        .intro-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .intro-content h2 {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-            font-weight: 400;
-        }
-        
-        .intro-content p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 40px;
-        }
-        
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            cursor: pointer;
-        }
-        
-        .scroll-down span {
-            margin-bottom: 10px;
-        }
-        
-        .mouse {
-            width: 25px;
-            height: 40px;
-            border: 2px solid white;
-            border-radius: 20px;
-            position: relative;
-        }
-        
-        .wheel {
-            width: 4px;
-            height: 8px;
-            background: white;
-            border-radius: 2px;
-            position: absolute;
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: scroll 2s infinite;
-        }
-        
-        @keyframes scroll {
-            0% { top: 5px; opacity: 1; }
-            50% { top: 15px; opacity: 0.5; }
-            100% { top: 5px; opacity: 1; }
-        }
-        
-        /* Skills section */
-        #skills {
-            background-color: white;
-            padding: 50px;
-        }
-        
-        .skills-container {
-            max-width: 1000px;
-            width: 100%;
-        }
-        
-        .skills-container h2 {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--primary);
-            text-align: center;
-        }
-        
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 30px;
-        }
-        
-        .skill-item {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .skill-item:hover {
-            transform: translateY(-10px);
-        }
-        
-        .skill-name {
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-        
-        .skill-bar {
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 5px;
-            width: 0;
-        }
-        
-        .skill-percent {
-            font-size: 0.9rem;
-            color: #666;
-            text-align: right;
-        }
-        
-        /* Projects section */
-        #projects {
-            background: linear-gradient(135deg, #00b894, #55efc4);
-            color: white;
-            overflow: hidden;
-        }
-        
-        .projects-container {
+
+        .container {
             width: 100%;
             max-width: 1200px;
-            padding: 0 20px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }
-        
-        .projects-container h2 {
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            text-align: center;
+
+        /* Header & Navigation */
+        header {
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.5s ease;
         }
-        
-        .projects-slider {
+
+        nav {
             display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 30px;
-            padding-bottom: 30px;
-            scrollbar-width: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
         }
-        
-        .projects-slider::-webkit-scrollbar {
-            display: none;
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
         }
-        
-        .project-card {
-            min-width: 300px;
-            width: 80vw;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            overflow: hidden;
-            scroll-snap-align: start;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
-        
-        .project-card:hover {
-            transform: scale(1.03);
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
         }
-        
-        .project-video {
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background-color: #333;
+        }
+
+        /* دکمه تغییر حالت تاریک */
+        .theme-toggle {
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-color);
             color: white;
+            transform: rotate(30deg);
         }
-        
-        .project-info {
-            padding: 20px;
-        }
-        
-        .project-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .project-info p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        
-        .project-links a {
-            color: white;
-            margin-right: 15px;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
-        
-        .project-links a:hover {
-            color: var(--accent);
-        }
-        
-        /* Contact section */
-        #contact {
-            background: linear-gradient(135deg, #0984e3, #74b9ff);
-            color: white;
-        }
-        
-        .contact-container {
-            max-width: 800px;
-            width: 100%;
-            padding: 0 20px;
-            text-align: center;
-        }
-        
-        .contact-container h2 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-        }
-        
-        .contact-container p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-        
-        .social-links {
+
+        .language-switcher {
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1.2rem;
+            background: var(--card-bg);
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            padding: 5rem 2rem;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex: 0 0 300px;
+        }
+
+        .profile-img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            border: 8px solid var(--card-bg);
+            transition: var(--transition);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray-color);
+            margin-bottom: 2rem;
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Sections Common */
+        section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--primary-color);
+            display: inline-block;
+        }
+
+        /* Skills */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-category {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .skill-category h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tag {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-top: 1.5rem;
+        }
+
+        .timeline-item {
+            border-right: 3px solid rgba(37, 99, 235, 0.2);
+            padding-right: 1.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            right: -9.5px;
+            top: 0;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Education */
+        .education-item {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .education-item:last-child {
+            border-bottom: none;
+        }
+
+        .education-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .education-desc {
+            color: var(--gray-color);
+            line-height: 1.8;
+        }
+
+        /* Hobbies */
+        .hobbies-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .hobby-card {
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .hobby-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .hobby-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .hobby-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        /* Considerations */
+        .considerations-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .considerations-list li {
+            margin-bottom: 1.5rem;
+            padding-right: 1.5rem;
+            position: relative;
+        }
+
+        .considerations-list li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Contact */
+        .contact-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
             flex-wrap: wrap;
         }
-        
-        .social-link {
+
+        .contact-link {
             display: flex;
-            flex-direction: column;
             align-items: center;
+            gap: 0.8rem;
             text-decoration: none;
-            color: white;
-            transition: transform 0.3s ease;
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
         }
-        
-        .social-link:hover {
-            transform: translateY(-10px);
+
+        .contact-link:hover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--primary-color);
         }
-        
-        .social-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
         }
-        
-        /* Persian text styling */
-        .persian {
-            direction: rtl;
-            font-family: 'Vazirmatn', sans-serif;
-        }
-        
-        .persian h1, .persian h2, .persian h3 {
-            font-family: 'Vazirmatn', sans-serif;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .intro-content h1 {
-                font-size: 2.5rem;
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 3rem 0;
+            }
+
+            .hero-image {
+                order: -1;
+                margin-bottom: 2rem;
+            }
+
+            .profile-img {
+                max-width: 280px;
+            }
+
+            .nav-links {
+                display: none;
             }
             
-            .intro-content h2 {
-                font-size: 1.4rem;
-            }
-            
-            .skills-grid {
+            .hobbies-container {
                 grid-template-columns: 1fr;
-            }
-            
-            .project-card {
-                min-width: 250px;
-                width: 85vw;
             }
         }
     </style>
+    <!-- فونت وزیرمتن -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
 </head>
 <body>
-    <!-- Language toggle -->
-    <div class="language-toggle">
-        <button class="language-btn active" data-lang="en">EN</button>
-        <button class="language-btn" data-lang="fa">FA</button>
-    </div>
-    
-    <!-- Intro Section -->
-    <section class="section" id="intro">
-        <div class="intro-content">
-            <div class="english">
-                <h1>Ahura Alipoor</h1>
-                <h2>Full Stack Developer & Network Engineering Student</h2>
-                <p>
-                    I'm a passionate full stack developer with expertise in both frontend and backend technologies. 
-                    Currently studying Network Engineering at University of Babol, I combine programming skills with 
-                    networking knowledge to build robust, scalable applications. I love solving complex problems 
-                    and creating elegant solutions.
-                </p>
-            </div>
-            <div class="persian" style="display: none;">
-                <h1>اهورا عالی پور</h1>
-                <h2>توسعه دهنده فول استک و دانشجوی مهندسی شبکه</h2>
-                <p>
-                    من یک توسعه دهنده فول استک پرشور هستم که در هر دو فناوری فرانت اند و بک اند تخصص دارم.
-                    در حال حاضر در دانشگاه بابل در رشته مهندسی شبکه تحصیل می‌کنم و مهارت‌های برنامه‌نویسی را 
-                    با دانش شبکه ترکیب می‌کنم تا برنامه‌های کاربردی قوی و مقیاس‌پذیر بسازم. من عاشق حل مشکلات پیچیده 
-                    و ایجاد راه‌حل‌های ظریف هستم.
-                </p>
-            </div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Ahura Alipour</a>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="#about" data-lang-key="nav.about">درباره من</a></li>
+                        <li><a href="#skills" data-lang-key="nav.skills">مهارت‌ها</a></li>
+                        <li><a href="#experience" data-lang-key="nav.experience">تجربه‌ها</a></li>
+                        <li><a href="#education" data-lang-key="nav.education">تحصیلات</a></li>
+                        <li><a href="#hobbies" data-lang-key="nav.hobbies">سرگرمی‌ها</a></li>
+                        <li><a href="#considerations" data-lang-key="nav.considerations">ملاحظات</a></li>
+                        <li><a href="#contact" data-lang-key="nav.contact">ارتباط</a></li>
+                    </ul>
+                    
+                    <button class="theme-toggle" id="themeToggle" aria-label="تغییر حالت تاریک/روشن">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="language-switcher">
+                        <button class="lang-btn active" onclick="changeLanguage('fa')">فارسی</button>
+                        <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+                    </div>
+                </div>
+            </nav>
         </div>
-        <div class="scroll-down">
-            <span>Scroll Down</span>
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Skills Section -->
-    <section class="section" id="skills">
-        <div class="skills-container">
-            <h2 class="english">My Skills</h2>
-            <h2 class="persian" style="display: none;">مهارت های من</h2>
-            
-            <div class="skills-grid">
-                <!-- Frontend Skills -->
-                <div class="skill-item">
-                    <div class="skill-name english">HTML/CSS</div>
-                    <div class="skill-name persian" style="display: none;">HTML/CSS</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="95"></div>
-                    </div>
-                    <div class="skill-percent">95%</div>
-                </div>
-                
-                <div class="skill-item">
-                    <div class="skill-name english">JavaScript</div>
-                    <div class="skill-name persian" style="display: none;">جاوااسکریپت</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="90"></div>
-                    </div>
-                    <div class="skill-percent">90%</div>
-                </div>
-                
-                <div class="skill-item">
-                    <div class="skill-name english">React</div>
-                    <div class="skill-name persian" style="display: none;">ریکت</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="85"></div>
-                    </div>
-                    <div class="skill-percent">85%</div>
-                </div>
-                
-                <!-- Backend Skills -->
-                <div class="skill-item">
-                    <div class="skill-name english">Node.js</div>
-                    <div class="skill-name persian" style="display: none;">Node.js</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="88"></div>
-                    </div>
-                    <div class="skill-percent">88%</div>
-                </div>
-                
-                <div class="skill-item">
-                    <div class="skill-name english">Python</div>
-                    <div class="skill-name persian" style="display: none;">پایتون</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="80"></div>
-                    </div>
-                    <div class="skill-percent">80%</div>
-                </div>
-                
-                <div class="skill-item">
-                    <div class="skill-name english">Database</div>
-                    <div class="skill-name persian" style="display: none;">پایگاه داده</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="85"></div>
-                    </div>
-                    <div class="skill-percent">85%</div>
-                </div>
-                
-                <!-- Networking -->
-                <div class="skill-item">
-                    <div class="skill-name english">Networking</div>
-                    <div class="skill-name persian" style="display: none;">شبکه</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="75"></div>
-                    </div>
-                    <div class="skill-percent">75%</div>
-                </div>
-                
-                <div class="skill-item">
-                    <div class="skill-name english">Linux</div>
-                    <div class="skill-name persian" style="display: none;">لینوکس</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-percent="70"></div>
-                    </div>
-                    <div class="skill-percent">70%</div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1 data-lang-key="hero.title">اهورا عالی پور<br><span class="highlight" data-lang-key="hero.subtitle">توسعه‌دهنده Full-Stack</span></h1>
+                <h2 style="font-size: 20px; font-weight: 200; padding: 0 0 1rem 0; row-gap: 1rem;">
+                    <i class="fas fa-cake"></i>
+                    2002/02/26
+                </h2>
+                <p data-lang-key="hero.description">بیش از <span class="highlight">۴ سال</span> تجربه حرفه‌ای در توسعه وب. متخصص در ساخت اپلیکیشن‌های مقیاس‌پذیر با <span class="highlight">Django</span> و <span class="highlight">React/Next.js</span>. علاقه‌مند به یادگیری سریع تکنولوژی‌های جدید و مسلط به زبان انگلیسی.</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary" data-lang-key="hero.cta1">تماس با من</a>
+                    <a href="#projects" class="btn btn-secondary" data-lang-key="hero.cta2">پروژه‌های من</a>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Projects Section -->
-    <section class="section" id="projects">
-        <div class="projects-container">
-            <h2 class="english">My Projects</h2>
-            <h2 class="persian" style="display: none;">پروژه های من</h2>
-            
-            <div class="projects-slider">
-                <!-- Project 1 -->
-                <div class="project-card">
-                    <div class="project-video">
-                        <i class="fas fa-play-circle" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3 class="english">Hotiday Full-Stack Developer</h3>
-                        <h3 class="persian" style="display: none;">توسعه دهنده هاتیدی</h3>
-                        <p class="english">
-                            A full-featured hotel reserving platform with React Next.JS frontend, Django Wagtail backend.
-                            Includes payment integration, user authentication, and admin dashboard.
-                        </p>
-                        <p class="persian" style="display: none;">
-                            یک پلتفرم رزرو هتل کامل با فرانت اند ری‌اکت، بک اند Django Wagtail .
-                            شامل یکپارچه سازی پرداخت، احراز هویت کاربر و داشبورد مدیریتی.
-                        </p>
-                        <div class="project-links">
-                            <!-- <a href="#" target="_blank"><i class="fab fa-github"></i></a> -->
-                            <a href="https://hotiday.com" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
+            <div class="hero-image">
+                <!-- عکس خود را با نام profile.jpg در کنار فایل html قرار دهید -->
+                <img src="profile.jpg" alt="اهورا علی پور" class="profile-img" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+            </div>
+        </section>
+
+        <!-- About Me -->
+        <section id="about">
+            <h2 class="section-title" data-lang-key="about.title">درباره من</h2>
+            <p data-lang-key="about.p1">من یک توسعه‌دهنده Full-Stack با بیش از ۴ سال تجربه عملی هستم. تمرکز اصلی من روی توسعه بک‌اند با <strong>Django</strong> و <strong>Django REST Framework</strong> و ساخت رابط‌های کاربری مدرن و واکنش‌گرا با <strong>React</strong> و <strong>Next.js</strong> است.</p>
+            <p data-lang-key="about.p2">توانایی یادگیری سریع و حل مسئله از نقاط قوت من است. به زبان انگلیسی مسلط هستم و در حال یادگیری زبان اسپانیایی نیز می‌باشم. از چالش‌های جدید و کار روی پروژه‌های نوآورانه لذت می‌برم.</p>
+            <p data-lang-key="about.p3">علاوه بر کار حرفه‌ای، پروژه‌های شخصی خود را نیز برای حل مشکلات واقعی توسعه می‌دهم.</p>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills">
+            <h2 class="section-title" data-lang-key="skills.title">مهارت‌های تخصصی</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3 data-lang-key="skills.backend">بک‌اند</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Django</span>
+                        <span class="tag">Django REST Framework</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">Prisma</span>
+                        <span class="tag">Wagtail</span>
+                        <span class="tag">Strapi</span>
                     </div>
                 </div>
-                
-                <!-- Project 2 -->
-                <div class="project-card">
-                    <div class="project-video">
-                        <i class="fas fa-play-circle" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3 class="english">Get Loan Platform</h3>
-                        <h3 class="persian" style="display: none;">پروژه درخواست وام</h3>
-                        <p class="english">
-                            A Python Django website that users can request for a loan through it.
-                        </p>
-                        <p class="persian" style="display: none;">
-                            وبسایت درخواست وام که با پایتون و جنگو انجام شده است و کاربران از طریق این پلتفرم قادر به ثبت درخواست
-                            وام هستند.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/ahurable/loan-request-app" target="_blank"><i class="fab fa-github"></i></a>
-                            <!-- <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a> -->
-                        </div>
+                <div class="skill-category">
+                    <h3 data-lang-key="skills.frontend">فرانت‌اند</h3>
+                    <div class="skill-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">PWA</span>
+                        <span class="tag">HTML/CSS/JS</span>
                     </div>
                 </div>
-                
-                <!-- Project 3 -->
-                <div class="project-card">
-                    <div class="project-video">
-                        <i class="fas fa-play-circle" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="project-info">
-                        <h3 class="english">Social Media Platform</h3>
-                        <h3 class="persian" style="display: none;">وبسایت شبکه اجتماعی</h3>
-                        <p class="english">
-                            A place where people can share, follow and like each other.
-                        </p>
-                        <p class="persian" style="display: none;">
-                           پلتفرم شبکه اجتماعی با قابلیت به اشتراک گذاری محتوا ، دنبال کردن دوستان و پسندیدن
-                           آنها میباشد.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/ahurable/social-medial" target="_blank"><i class="fab fa-github"></i></a>
-                            <!-- <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a> -->
-                        </div>
+                <div class="skill-category">
+                    <h3 data-lang-key="skills.other">سایر مهارت‌ها</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Linux</span>
+                        <span class="tag">Cloudflare</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Networking Basics</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section class="section" id="contact">
-        <div class="contact-container">
-            <h2 class="english">Get In Touch</h2>
-            <h2 class="persian" style="display: none;">ارتباط با من</h2>
-            
-            <p class="english">
-                Interested in working together or have any questions? Feel free to reach out through any of these platforms.
-            </p>
-            <p class="persian" style="display: none;">
-                علاقه‌مند به همکاری یا سوالی دارید؟ از طریق هر یک از این پلتفرم‌ها با من در تماس باشید.
-            </p>
-            
-            <div class="social-links">
-                <a href="https://github.com/ahurable" class="social-link" target="_blank">
-                    <div class="social-icon">
-                        <i class="fab fa-github"></i>
+        </section>
+
+        <!-- Experience & Projects -->
+        <section id="experience">
+            <h2 class="section-title" data-lang-key="experience.title">تجربه کاری و پروژه‌ها</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date" data-lang-key="experience.job1.date">۸ ماه (دورکاری)</div>
+                    <h3 class="timeline-title" data-lang-key="experience.job1.title">همکاری با Hotiday.com & Bitleapps.com</h3>
+                    <p data-lang-key="experience.job1.desc">توسعه و نگهداری اپلیکیشن‌های وب در مقیاس بزرگ به عنوان توسعه‌دهنده Full-Stack. تمرکز بر بهبود عملکرد و افزودن ویژگی‌های جدید.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date" data-lang-key="experience.project1.date">پروژه شخصی</div>
+                    <h3 class="timeline-title" data-lang-key="experience.project1.title">منوی دیجیتال برای کافه‌ها</h3>
+                    <p data-lang-key="experience.project1.desc">یک اپلیکیشن کامل با قابلیت‌های مدیریت منو، انبارداری، حسابداری و ردیابی سفارشات به صورت بلادرنگ.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date" data-lang-key="experience.project2.date">پروژه شخصی</div>
+                    <h3 class="timeline-title" data-lang-key="experience.project2.title">پلتفرم حمل و نقل (شبیه اسنپ باکس)</h3>
+                    <p data-lang-key="experience.project2.desc">سیستمی برای درخواست وانت و کامیونت بر روی نقشه. شامل پنل کاربری، ردیابی موقعیت و سیستم پرداخت.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section id="education">
+            <h2 class="section-title" data-lang-key="education.title">تحصیلات</h2>
+            <div class="education-container">
+                <div class="education-item">
+                    <h3 class="education-title" data-lang-key="education.item1.title">دیپلم فنی - هنرستان فنی شماره یک شهرکرد</h3>
+                    <p class="education-desc" data-lang-key="education.item1.desc">در اینجا برنامه‌نویسی را با سی‌شارپ شروع کردم و معلم‌های خوب و راهنمایی آن‌ها مرا به مسیر شبکه و پایتون کشاند. از ۱۶ سالگی وارد دنیای برنامه‌نویسی شدم.</p>
+                </div>
+                <div class="education-item">
+                    <h3 class="education-title" data-lang-key="education.item2.title">فوق‌دیپلم نرم‌افزار - دانشکده امام صادق بابل</h3>
+                    <p class="education-desc" data-lang-key="education.item2.desc">به دلیل مشکلات شخصی، سه ترم برای لیسانس ادامه دادم و بیشتر از آن نتوانستم تحصیلاتم را ادامه دهم.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hobbies -->
+        <section id="hobbies">
+            <h2 class="section-title" data-lang-key="hobbies.title">سرگرمی‌ها و علاقه‌مندی‌ها</h2>
+            <div class="hobbies-container">
+                <div class="hobby-card">
+                    <div class="hobby-icon">
+                        <i class="fas fa-globe-americas"></i>
                     </div>
-                    <span class="english">GitHub</span>
-                    <span class="persian" style="display: none;">گیت‌هاب</span>
+                    <h3 data-lang-key="hobbies.travel.title">مسافرت و کشف ناشناخته‌ها</h3>
+                    <p data-lang-key="hobbies.travel.desc">من به مسافرت رفتن علاقه بسیار زیادی دارم. دوست دارم همه جاهایی که ندیده‌ام را با چشم‌هایم کشف کنم. طبیعت را خیلی دوست دارم و از بودن در طبیعت لذت می‌برم.</p>
+                </div>
+                <div class="hobby-card">
+                    <div class="hobby-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 data-lang-key="hobbies.learning.title">یادگیری تکنولوژی‌های جدید</h3>
+                    <p data-lang-key="hobbies.learning.desc">همیشه علاقه‌مند به یادگیری فریمورک‌ها و تکنولوژی‌های جدید در حوزه توسعه وب هستم و پروژه‌های شخصی برای آزمایش آنها ایجاد می‌کنم.</p>
+                </div>
+                <div class="hobby-card">
+                    <div class="hobby-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 data-lang-key="hobbies.languages.title">یادگیری زبان‌های جدید</h3>
+                    <p data-lang-key="hobbies.languages.desc">به زبان انگلیسی مسلط هستم و در حال یادگیری زبان اسپانیایی می‌باشم. معتقدم یادگیری زبان‌های جدید پنجره‌ای به فرهنگ‌های مختلف است.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Considerations -->
+        <section id="considerations">
+            <h2 class="section-title" data-lang-key="considerations.title">ملاحظات قبل از همکاری</h2>
+            <p data-lang-key="considerations.intro">در مورد بحث همکاری، موارد زیر برای من اهمیت زیادی دارند:</p>
+            <ul class="considerations-list">
+                <li data-lang-key="considerations.item1">زمان کافی برای یادگیری مطالب جدید داشته باشم</li>
+                <li data-lang-key="considerations.item2">شیوه کار طوری باشد که نیاز به حضور فیزیکی من در محل کار نباشد، زیرا نیاز دارم بیشتر با خانواده‌ام وقت بگذرانم</li>
+                <li data-lang-key="considerations.item3">اگر نیاز به کار حضوری است، حتماً بحث پیشرفت در آن کار برایم حائز اهمیت باشد</li>
+                <li data-lang-key="considerations.item4">محیط کاری پویا و چالش‌برانگیز که امکان رشد و پیشرفت فراهم کند</li>
+            </ul>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact">
+            <h2 class="section-title" data-lang-key="contact.title">در ارتباط باشید</h2>
+            <p data-lang-key="contact.description">برای همکاری، پیشنهاد پروژه یا صحبت درباره فرصت‌های کاری می‌توانید از طریق روش‌های زیر با من تماس بگیرید.</p>
+            <div class="contact-links">
+                <a href="https://github.com/ahurable" target="_blank" class="contact-link">
+                    <i class="fab fa-github fa-lg"></i>
+                    <span>GitHub</span>
                 </a>
-                
-                <a href="https://www.linkedin.com/in/ahoora-alipoor-502667214/" class="social-link" target="_blank">
-                    <div class="social-icon">
-                        <i class="fab fa-linkedin-in"></i>
-                    </div>
-                    <span class="english">LinkedIn</span>
-                    <span class="persian" style="display: none;">لینکدین</span>
+                <a href="https://linkedin.com/in/ahoora-alipoor-502667214" target="_blank" class="contact-link">
+                    <i class="fab fa-linkedin fa-lg"></i>
+                    <span>LinkedIn</span>
                 </a>
-                
-                <a href="mailto:ahura.alipur19@yahoo.com" class="social-link">
-                    <div class="social-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <span class="english">Email</span>
-                    <span class="persian" style="display: none;">ایمیل</span>
-                </a>
-                
-                <a href="https://instagram.com/ahuraalipoor" class="social-link" target="_blank">
-                    <div class="social-icon">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                    <span class="english">Instagram</span>
-                    <span class="persian" style="display: none;">ایثارگران</span>
+                <a href="ahura.alipur19@yahoo.com" class="contact-link">
+                    <i class="fas fa-envelope fa-lg"></i>
+                    <span>Email</span>
                 </a>
             </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-lang-key="footer.text">© 2025 ساخته شده با ❤️ توسط اهورا عالی پور. تمامی حقوق محفوظ است.</p>
         </div>
-    </section>
-    
+    </footer>
+
+    <!-- JavaScript -->
     <script>
-        $(document).ready(function() {
-            // Initialize GSAP animations
-            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-            
-            // Animate elements on page load
-            gsap.from(".intro-content h1", {
-                duration: 1,
-                y: -50,
-                opacity: 0,
-                ease: "power3.out"
-            });
-            
-            gsap.from(".intro-content h2", {
-                duration: 1,
-                y: -50,
-                opacity: 0,
-                ease: "power3.out",
-                delay: 0.3
-            });
-            
-            gsap.from(".intro-content p", {
-                duration: 1,
-                y: 50,
-                opacity: 0,
-                ease: "power3.out",
-                delay: 0.6
-            });
-            
-            gsap.from(".scroll-down", {
-                duration: 1,
-                opacity: 0,
-                delay: 1.5
-            });
-            
-            // Animate skill bars when scrolled to
-            $(".skill-progress").each(function() {
-                let percent = $(this).data("percent");
-                ScrollTrigger.create({
-                    trigger: this,
-                    start: "top 80%",
-                    onEnter: () => {
-                        gsap.to(this, {
-                            width: percent + "%",
-                            duration: 1.5,
-                            ease: "elastic.out(1, 0.5)"
-                        });
-                    }
-                });
-            });
-            
-            // Animate project cards when scrolled to
-            gsap.utils.toArray(".project-card").forEach(card => {
-                ScrollTrigger.create({
-                    trigger: card,
-                    start: "top 80%",
-                    onEnter: () => {
-                        gsap.from(card, {
-                            x: 100,
-                            opacity: 0,
-                            duration: 0.8,
-                            ease: "back.out(1.7)"
-                        });
-                    }
-                });
-            });
-            
-            // Language toggle functionality
-            $(".language-btn").click(function() {
-                const lang = $(this).data("lang");
-                
-                $(".language-btn").removeClass("active");
-                $(this).addClass("active");
-                
-                if (lang === "fa") {
-                    $(".english").hide();
-                    $(".persian").show();
-                    $("body").addClass("persian");
-                } else {
-                    $(".english").show();
-                    $(".persian").hide();
-                    $("body").removeClass("persian");
-                }
-            });
-            
-            // Smooth scrolling for navigation
-            $(".scroll-down").click(function() {
-                gsap.to(window, {
-                    duration: 1,
-                    scrollTo: "#skills",
-                    ease: "power2.inOut"
-                });
-            });
-            
-            // Section-to-section scrolling
-            let sections = $(".section");
-            let currentSection = 0;
-            let isScrolling = false;
-            let startY;
-            
-            // Handle wheel events
-            $(window).on("wheel", function(e) {
-                e.preventDefault();
-                
-                if (isScrolling) return;
-                
-                const deltaY = e.originalEvent.deltaY;
-                const direction = deltaY > 0 ? 1 : -1;
-                
-                navigateSections(direction);
-            });
-            
-            // Handle touch events
-            $(window).on("touchstart", function(e) {
-                startY = e.originalEvent.touches[0].clientY;
-            });
-            
-            $(window).on("touchend", function(e) {
-                if (!startY) return;
-                
-                const endY = e.originalEvent.changedTouches[0].clientY;
-                const deltaY = startY - endY;
-                const direction = deltaY > 0 ? 1 : -1;
-                
-                navigateSections(direction);
-                startY = null;
-            });
-            
-            // Handle keyboard events
-            $(document).on("keydown", function(e) {
-                if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-                    e.preventDefault();
-                    navigateSections(1);
-                } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-                    e.preventDefault();
-                    navigateSections(-1);
-                }
-            });
-            
-            // Navigation function
-            function navigateSections(direction) {
-                if (isScrolling) return;
-                
-                const nextSection = currentSection + direction;
-                
-                if (nextSection < 0 || nextSection >= sections.length) {
-                    return;
-                }
-                
-                isScrolling = true;
-                currentSection = nextSection;
-                
-                gsap.to(window, {
-                    duration: 1,
-                    scrollTo: {y: sections.eq(currentSection).offset().top, autoKill: false},
-                    ease: "power2.inOut",
-                    onComplete: () => {
-                        isScrolling = false;
-                    }
-                });
+        // داده‌های دو زبانه
+        const translations = {
+            fa: {
+                // Navigation
+                "nav.about": "درباره من",
+                "nav.skills": "مهارت‌ها",
+                "nav.experience": "تجربه‌ها",
+                "nav.education": "تحصیلات",
+                "nav.hobbies": "سرگرمی‌ها",
+                "nav.considerations": "ملاحظات",
+                "nav.contact": "ارتباط",
+                // Hero
+                "hero.title": "اهورا عالی پور<br><span class='highlight'>توسعه‌دهنده Full-Stack</span>",
+                "hero.subtitle": "توسعه‌دهنده Full-Stack",
+                "hero.description": "بیش از <span class='highlight'>۴ سال</span> تجربه حرفه‌ای در توسعه وب. متخصص در ساخت اپلیکیشن‌های مقیاس‌پذیر با <span class='highlight'>Django</span> و <span class='highlight'>React/Next.js</span>. علاقه‌مند به یادگیری سریع تکنولوژی‌های جدید و مسلط به زبان انگلیسی.",
+                "hero.cta1": "تماس با من",
+                "hero.cta2": "پروژه‌های من",
+                // About
+                "about.title": "درباره من",
+                "about.p1": "من یک توسعه‌دهنده Full-Stack با بیش از ۴ سال تجربه عملی هستم. تمرکز اصلی من روی توسعه بک‌اند با <strong>Django</strong> و <strong>Django REST Framework</strong> و ساخت رابط‌های کاربری مدرن و واکنش‌گرا با <strong>React</strong> و <strong>Next.js</strong> است.",
+                "about.p2": "توانایی یادگیری سریع و حل مسئله از نقاط قوت من است. به زبان انگلیسی مسلط هستم و در حال یادگیری زبان اسپانیایی نیز می‌باشم. از چالش‌های جدید و کار روی پروژه‌های نوآورانه لذت می‌برم.",
+                "about.p3": "علاوه بر کار حرفه‌ای، پروژه‌های شخصی خود را نیز برای حل مشکلات واقعی توسعه می‌دهم.",
+                // Skills
+                "skills.title": "مهارت‌های تخصصی",
+                "skills.backend": "بک‌اند",
+                "skills.frontend": "فرانت‌اند",
+                "skills.other": "سایر مهارت‌ها",
+                // Experience
+                "experience.title": "تجربه کاری و پروژه‌ها",
+                "experience.job1.date": "۸ ماه (دورکاری)",
+                "experience.job1.title": "همکاری با Hotiday.com & Bitleapps.com",
+                "experience.job1.desc": "توسعه و نگهداری اپلیکیشن‌های وب در مقیاس بزرگ به عنوان توسعه‌دهنده Full-Stack. تمرکز بر بهبود عملکرد و افزودن ویژگی‌های جدید.",
+                "experience.project1.date": "پروژه شخصی",
+                "experience.project1.title": "منوی دیجیتال برای کافه‌ها",
+                "experience.project1.desc": "یک اپلیکیشن کامل با قابلیت‌های مدیریت منو، انبارداری، حسابداری و ردیابی سفارشات به صورت بلادرنگ.",
+                "experience.project2.date": "پروژه شخصی",
+                "experience.project2.title": "پلتفرم حمل و نقل (شبیه اسنپ باکس)",
+                "experience.project2.desc": "سیستمی برای درخواست وانت و کامیونت بر روی نقشه. شامل پنل کاربری، ردیابی موقعیت و سیستم پرداخت.",
+                // Education
+                "education.title": "تحصیلات",
+                "education.item1.title": "دیپلم فنی - هنرستان فنی شماره یک شهرکرد",
+                "education.item1.desc": "در اینجا برنامه‌نویسی را با سی‌شارپ شروع کردم و معلم‌های خوب و راهنمایی آن‌ها مرا به مسیر شبکه و پایتون کشاند. از ۱۶ سالگی وارد دنیای برنامه‌نویسی شدم.",
+                "education.item2.title": "فوق‌دیپلم نرم‌افزار - دانشکده امام صادق بابل",
+                "education.item2.desc": "به دلیل مشکلات شخصی، سه ترم برای لیسانس ادامه دادم و بیشتر از آن نتوانستم تحصیلاتم را ادامه دهم.",
+                // Hobbies
+                "hobbies.title": "سرگرمی‌ها و علاقه‌مندی‌ها",
+                "hobbies.travel.title": "مسافرت و کشف ناشناخته‌ها",
+                "hobbies.travel.desc": "من به مسافرت رفتن علاقه بسیار زیادی دارم. دوست دارم همه جاهایی که ندیده‌ام را با چشم‌هایم کشف کنم. طبیعت را خیلی دوست دارم و از بودن در طبیعت لذت می‌برم.",
+                "hobbies.learning.title": "یادگیری تکنولوژی‌های جدید",
+                "hobbies.learning.desc": "همیشه علاقه‌مند به یادگیری فریمورک‌ها و تکنولوژی‌های جدید در حوزه توسعه وب هستم و پروژه‌های شخصی برای آزمایش آنها ایجاد می‌کنم.",
+                "hobbies.languages.title": "یادگیری زبان‌های جدید",
+                "hobbies.languages.desc": "به زبان انگلیسی مسلط هستم و در حال یادگیری زبان اسپانیایی می‌باشم. معتقدم یادگیری زبان‌های جدید پنجره‌ای به فرهنگ‌های مختلف است.",
+                // Considerations
+                "considerations.title": "ملاحظات قبل از همکاری",
+                "considerations.intro": "در مورد بحث همکاری، موارد زیر برای من اهمیت زیادی دارند:",
+                "considerations.item1": "زمان کافی برای یادگیری مطالب جدید داشته باشم",
+                "considerations.item2": "شیوه کار طوری باشد که نیاز به حضور فیزیکی من در محل کار نباشد، زیرا نیاز دارم بیشتر با خانواده‌ام وقت بگذرانم",
+                "considerations.item3": "اگر نیاز به کار حضوری است، حتماً بحث پیشرفت در آن کار برایم حائز اهمیت باشد",
+                "considerations.item4": "محیط کاری پویا و چالش‌برانگیز که امکان رشد و پیشرفت فراهم کند",
+                // Contact
+                "contact.title": "در ارتباط باشید",
+                "contact.description": "برای همکاری، پیشنهاد پروژه یا صحبت درباره فرصت‌های کاری می‌توانید از طریق روش‌های زیر با من تماس بگیرید.",
+                // Footer
+                "footer.text": "© 2025 ساخته شده با ❤️ توسط اهورا عالی پور. تمامی حقوق محفوظ است."
+            },
+            en: {
+                // Navigation
+                "nav.about": "About Me",
+                "nav.skills": "Skills",
+                "nav.experience": "Experience",
+                "nav.education": "Education",
+                "nav.hobbies": "Hobbies",
+                "nav.considerations": "Considerations",
+                "nav.contact": "Contact",
+                // Hero
+                "hero.title": "Ahoora Alipoor<br><span class='highlight'>Full-Stack Developer</span>",
+                "hero.subtitle": "Full-Stack Developer",
+                "hero.description": "Over <span class='highlight'>4 years</span> of professional web development experience. Specialized in building scalable applications with <span class='highlight'>Django</span> and <span class='highlight'>React/Next.js</span>. Passionate about fast learning new technologies and fluent in English.",
+                "hero.cta1": "Contact Me",
+                "hero.cta2": "My Projects",
+                // About
+                "about.title": "About Me",
+                "about.p1": "I am a Full-Stack Developer with over 4 years of hands-on experience. My main focus is on backend development with <strong>Django</strong> and <strong>Django REST Framework</strong>, and building modern, responsive user interfaces with <strong>React</strong> and <strong>Next.js</strong>.",
+                "about.p2": "Fast learning and problem-solving are among my key strengths. I am fluent in English and currently learning Spanish. I enjoy new challenges and working on innovative projects.",
+                "about.p3": "In addition to professional work, I develop personal projects to solve real-world problems.",
+                // Skills
+                "skills.title": "Technical Skills",
+                "skills.backend": "Backend",
+                "skills.frontend": "Frontend",
+                "skills.other": "Other Skills",
+                // Experience
+                "experience.title": "Work Experience & Projects",
+                "experience.job1.date": "8 months (Remote)",
+                "experience.job1.title": "Collaboration with Hotiday.com & Bitleapps.com",
+                "experience.job1.desc": "Development and maintenance of large-scale web applications as a Full-Stack Developer. Focused on performance improvement and adding new features.",
+                "experience.project1.date": "Personal Project",
+                "experience.project1.title": "Digital Menu for Cafes",
+                "experience.project1.desc": "A complete application with menu management, inventory, accounting, and real-time order tracking capabilities.",
+                "experience.project2.date": "Personal Project",
+                "experience.project2.title": "Transportation Platform (Similar to Snapp Box)",
+                "experience.project2.desc": "A system for requesting vans and trucks on the map. Includes user panel, location tracking, and payment system.",
+                // Education
+                "education.title": "Education",
+                "education.item1.title": "Technical Diploma - Technical School No. 1 of Shahrekord",
+                "education.item1.desc": "Here I started programming with C# and the guidance of good teachers led me to the path of networking and Python. I entered the world of programming at the age of 16.",
+                "education.item2.title": "Associate Degree in Software - Emam Sadegh College of Babol",
+                "education.item2.desc": "Due to personal problems, I continued for three semesters for my bachelor's degree and couldn't continue my studies beyond that.",
+                // Hobbies
+                "hobbies.title": "Hobbies & Interests",
+                "hobbies.travel.title": "Traveling & Discovering the Unknown",
+                "hobbies.travel.desc": "I am very interested in traveling. I want to discover all the places I haven't seen with my own eyes. I really love nature and enjoy being in nature.",
+                "hobbies.learning.title": "Learning New Technologies",
+                "hobbies.learning.desc": "I'm always interested in learning new frameworks and technologies in web development and create personal projects to test them.",
+                "hobbies.languages.title": "Learning New Languages",
+                "hobbies.languages.desc": "I am fluent in English and currently learning Spanish. I believe learning new languages is a window to different cultures.",
+                // Considerations
+                "considerations.title": "Considerations Before Collaboration",
+                "considerations.intro": "Regarding collaboration, the following are very important to me:",
+                "considerations.item1": "Having enough time to learn new things",
+                "considerations.item2": "The work style should not require my physical presence at the workplace, because I need to spend more time with my family",
+                "considerations.item3": "If in-person work is required, career advancement in that job must be important to me",
+                "considerations.item4": "A dynamic and challenging work environment that provides opportunities for growth and advancement",
+                // Contact
+                "contact.title": "Get In Touch",
+                "contact.description": "For collaboration, project proposals, or discussing job opportunities, you can contact me through the following methods.",
+                // Footer
+                "footer.text": "© 2025 Made with ❤️ by Ahoora Alipoor. All rights reserved."
             }
-            
-            // Initialize scroll position
-            $(window).on("load", function() {
-                gsap.to(window, {
-                    scrollTo: 0,
-                    duration: 0
-                });
+        };
+
+        // تابع تغییر زبان
+        function changeLanguage(lang) {
+            // تغییر وضعیت دکمه‌ها
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
+            event.target.classList.add('active');
+
+            // تغییر متن‌ها
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+
+            // تغییر جهت صفحه
+            if (lang === 'fa') {
+                document.documentElement.dir = 'rtl';
+                document.documentElement.lang = 'fa';
+            } else {
+                document.documentElement.dir = 'ltr';
+                document.documentElement.lang = 'en';
+            }
+
+            // ذخیره زبان انتخاب شده
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // مدیریت حالت تاریک/روشن
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                icon.className = 'fas fa-sun';
+            }
+        }
+        
+        themeToggle.addEventListener('click', toggleDarkMode);
+
+        // بارگذاری تنظیمات ذخیره شده
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred-language') || 'fa';
+            changeLanguage(savedLang);
+            
+            loadTheme();
         });
     </script>
 </body>
